@@ -1,11 +1,13 @@
 package com.example.musicguessinggametest10;
 
 import android.content.Intent;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,15 +20,33 @@ import java.util.Locale;
 public class FirstGuessScreen extends AppCompatActivity {
 
     private TextView txvResult;
-    //public ImageView btnSpeak;
     MediaPlayer mediaPlayer;
-    AudioManager audioManager;
+    int startMusicFrom = 0;
+    int endMusicAt = 30000;
+    int playerScore = 0;
+    String playerGuess;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_guess_screen);
         txvResult = (TextView) findViewById(R.id.txvResult);
-      //  btnSpeak = (ImageView) findViewById(R.id.btnSpeak);
+        final ImageView btnSpeak = (ImageView) findViewById(R.id.btnSpeak);
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.song);
+        mediaPlayer.start();
+
+        Handler handler = new Handler();
+                handler.postDelayed(stopMusicPlayer, endMusicAt);
+
+        btnSpeak.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (btnSpeak.isPressed()){
+                    mediaPlayer.pause();
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -41,24 +61,14 @@ public class FirstGuessScreen extends AppCompatActivity {
             Toast.makeText(this, "You Device Does Not Support Speech Input", Toast.LENGTH_SHORT).show();
         }
 
-
-        MainActivity mainActivity = new MainActivity();
-
-//        while (mainActivity.mediaPlayer.isPlaying()){
-//
-//        }
-//        while (btnSpeak.isPressed()){
-//            mainActivity.mediaPlayer.stop();
-//        }
-
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        final MainActivity mainActivity = new MainActivity();
+        KeepUserScore keepUserScore = new KeepUserScore();
+        mediaPlayer.start();
 
 
         switch (requestCode) {
@@ -68,7 +78,13 @@ public class FirstGuessScreen extends AppCompatActivity {
                     txvResult.setText(result.get(0));
                     if (txvResult.getText().equals("Demi Lovato")) {
                         Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+                        mediaPlayer.stop();
+                        if (txvResult.getText().equals("Demi Lovato")){
+                            playerScore = playerScore + 1;
+                        }
                         Intent nextScreenTwo = new Intent(getApplicationContext(), SecondGuessScreen.class);
+                        // Testing score keeping capabilities on line below
+                        nextScreenTwo.putExtra("score", playerScore);
                         startActivityForResult(nextScreenTwo, 10);
 
                     }
@@ -80,13 +96,13 @@ public class FirstGuessScreen extends AppCompatActivity {
 
         }
 
-
         }
 
-    private void stopMusic() {
-        //startActivity(nextScreenTwo);
-        MainActivity mainActivity = new MainActivity();
+        Runnable stopMusicPlayer = new Runnable() {
+        @Override
+        public void run() {
+            mediaPlayer.pause();
+        }};
 
-    }
 }
 
