@@ -6,15 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".SecondGuessScreen">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include layout="@layout/guess_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
     <TextView
         android:id="@+id/displayScore"
@@ -22,10 +17,10 @@
         android:layout_height="wrap_content"
         android:text="score"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.798"
+        app:layout_constraintHorizontal_bias="0.84"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.167" />
+        app:layout_constraintVertical_bias="0.087" />
 </androidx.constraintlayout.widget.ConstraintLayout>
