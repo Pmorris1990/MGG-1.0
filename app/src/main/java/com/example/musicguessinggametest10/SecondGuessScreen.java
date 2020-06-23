@@ -24,8 +24,12 @@ public class SecondGuessScreen extends AppCompatActivity {
 
         mediaPlayer = MediaPlayer.create(this, R.raw.song);
 
-//        firstGuessScreen.getUserSpeech();
-        firstGuessScreen.answerCheck("Rick");
+        // Referencing these methods below from FirstGuessScreen
+        // throws NullPointerException errors. Must fix this sheet.
+
+
+         // firstGuessScreen.answerCheck("Rick");
+
         displayScore = (TextView) findViewById(R.id.displayScore);
 
         score = getIntent().getExtras().get("score").toString();

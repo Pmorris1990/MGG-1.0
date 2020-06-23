@@ -11,8 +11,6 @@ public class MainActivity extends AppCompatActivity {
     int startMusicFrom = 0;
     int endMusicAt = 30000;
 
-//    MediaPlayer mediaPlayer;
-//
 //    Runnable stopMusicPlayer = new Runnable() {
 //        @Override
 //        public void run() {
@@ -24,22 +22,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        mediaPlayer = MediaPlayer.create(this, R.raw.song);
-
         Button startGameBtn = (Button) findViewById(R.id.startGameBtn);
         startGameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View startBtn) {
                 Intent nextScreen = new Intent(getApplicationContext(), FirstGuessScreen.class);
-//                mediaPlayer.start();
-//                FirstGuessScreen firstGuessScreen = new FirstGuessScreen();
-//                Handler handler = new Handler();
-//                handler.postDelayed(stopMusicPlayer, endMusicAt);
                 startActivity(nextScreen);
             }
         });
-
-
     }
 }
 

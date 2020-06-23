@@ -37,7 +37,6 @@ public class FirstGuessScreen extends AppCompatActivity {
         Handler handler = new Handler();
         // handler.postDelayed(stopMusicPlayer, endMusicAt);
 
-
         btnSpeak.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -52,9 +51,7 @@ public class FirstGuessScreen extends AppCompatActivity {
 
    // deleted View view parameters from getSpeechInput
     public void getSpeechInput(View view) {
-
         getUserSpeech();
-
     }
 
     public void getUserSpeech() {
@@ -74,10 +71,8 @@ public class FirstGuessScreen extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // KeepUserScore keepUserScore = new KeepUserScore();
         // mediaplayer.start is pivotal for the pause microphone button functionality.
         mediaPlayer.start();
-
 
         switch (requestCode) {
             case 10:
@@ -85,28 +80,11 @@ public class FirstGuessScreen extends AppCompatActivity {
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     assert result != null;
                     txvResult.setText(result.get(0));
-//                    if (txvResult.getText().equals("Demi Lovato")) {
-////                        Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
-////                        mediaPlayer.stop();
-////                        if (txvResult.getText().equals("Demi Lovato")) {
-////                            playerScore = playerScore + 1;
-////                        }
                     answerCheck("Demi Lovato");
                     // Extracted commented lines above to answerCheck method
                     // Extracted method works here
-                    // answerCheck("Demi Lovato");
-
-
-                    // Testing score keeping capabilities on line below
-//
-//                    } else {
-//                        Toast.makeText(this, "Please Try Again!", Toast.LENGTH_SHORT).show();
-//                    }
-                    // break was here before I think
                 }
                 break;
-
-
         }
     }
 
@@ -135,20 +113,3 @@ public class FirstGuessScreen extends AppCompatActivity {
             };
         }
     }
-
-    // Not sure if this method is needed here or not.
-//    public void getSpeechInput() {
-//
-//        Intent intentOne = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-//        intentOne.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-//        intentOne.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-//        if (intentOne.resolveActivity(getPackageManager()) != null){
-//            startActivityForResult(intentOne,10);
-//        } else {
-//            Toast.makeText(this, "You Device Does Not Support Speech Input", Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
-//    }
-
-
