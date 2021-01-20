@@ -1,28 +1,24 @@
 package com.example.musicguessinggametest10;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-public class SecondGuessScreen extends AppCompatActivity implements VoiceRecognition {
+public class SecondGuessScreen  extends FirstGuessScreen {
 
 //    private FirstGuessScreen firstGuessScreen;
     private TextView txvResult;
     private TextView displayScore;
-    private String score;
-    MediaPlayer mediaPlayer;
-    ImageView btnSpeak;
-    View view;
-    Context context;
-    Intent intent;
-
+  //  private String score;
+ //   MediaPlayer mediaPlayer;
+   // ImageView btnSpeak;
+ //   Context context;
+  //  Intent data;
+ //   View view;
+    Intent intentOne;
+    int playerScore = 0;
 
 
 //    public void setFirstGuessScreen(FirstGuessScreen firstGuessScreen) {
@@ -31,41 +27,37 @@ public class SecondGuessScreen extends AppCompatActivity implements VoiceRecogni
 //        firstGuessScreen.answerCheck("Hello");
 //    }
 
-    FirstGuessScreen firstGuessScreen = new FirstGuessScreen();
+
+    // SecondGuessScreen s2 = new SecondGuessScreen();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second_guess_screen);
-        PackageManager packageManager = getPackageManager();
+        setContentView(R.layout.guess_screen);
 
         txvResult = (TextView) findViewById(R.id.txvResult);
-        btnSpeak = (ImageView) findViewById(R.id.btnSpeak);
+         speakButton = (ImageView) findViewById(R.id.btnSpeak);
         displayScore = (TextView) findViewById(R.id.displayScore);
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.salad_days);
-        mediaPlayer.start();
-
-
-
 
         // Not confirmed to work
 
-        firstGuessScreen.musicPauseTouch(btnSpeak, mediaPlayer);
+        stopPlaying();
 
-        firstGuessScreen.getSpeechInput(view);
-        firstGuessScreen.answerCheck("Mac Demarco", txvResult, context);
+        mp = MediaPlayer.create(getApplicationContext(), R.raw.salad_days);
+        mp.start();
+
 //
-//        firstGuessScreen.voiceAnswerValidation(10, 10, firstGuessScreen.getIntent() );
-//        firstGuessScreen.answerCheck("Test");
 
 
+            //firstGuessScreen.musicPauseTouch(btnSpeak, mediaPlayer);
 
-        // setFirstGuessScreen(firstGuessScreen);
-
-
-//         firstGuessScreen.pauseMusicOnTouch(null);
-//         firstGuessScreen.getSpeechInput(null);
-
+     //   voiceAnswerValidation(2, 2, getIntent());
+//        answerCheck("Mac Demarco", txvResult);
+//        Intent nextScreen = new Intent(getApplicationContext(), ThirdGuessScreen.class);
+//        nextScreen.putExtra("score", playerScore);
+//        startActivityForResult(nextScreen, 10);
+       // firstGuessScreen.voiceAnswerValidation(10, 10, data, mediaPlayer);
+//        firstGuessScreen.getSpeechInput(this.btnSpeak);
 
         // Referencing these methods below from FirstGuessScreen
         // throws NullPointerException errors. Must fix this sheet.
@@ -76,47 +68,63 @@ public class SecondGuessScreen extends AppCompatActivity implements VoiceRecogni
 
         // firstGuessScreen.answerCheck("Rick");
 
-
-//
 //        score = getIntent().getExtras().get("score").toString();
 //
 //        displayScore.setText("Score = " + score);
 
-        // Not sure if getSpeechInput method will work here.
-//        firstGuessScreen.getSpeechInput();
+    }
 
-        // This make work throughout though.
-        // Problem child below. Figure it out mate...
-        // firstGuessScreen.answerCheck("Allen");
+    //
 
-
-//            btnSpeak.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    if (btnSpeak.isPressed()) {
-//                        mediaPlayer.pause();
-//                    }
-//                    return false;
-//                }
-//            });
-//        }
-
-
-//    public void answerFunctions() {
-//        firstGuessScreen.getUserSpeech();
-//        firstGuessScreen.answerCheck("Mac Demarco");
-//        // maybe add intents here?
-//    }
-
-
-//        public void setFirstGuessScreen (FirstGuessScreen firstGuessScreen){
-//            this.firstGuessScreen = firstGuessScreen;
+//    public void getSpeechInput(View view) {
+//
+//        if (speakButton.isPressed()) {
+//            mp.pause();
+//            length = mp.getCurrentPosition();
+//        } else {
+//            mp.start();
+//            mp.seekTo(length);
 //        }
 //
-//        public FirstGuessScreen getFirstGuessScreen () {
-//            return firstGuessScreen;
+//
+//            switch (view.getId()) {
+//                case R.id.btnSpeak:
+//
+//                    Intent intentOne = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//                    intentOne.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//                    intentOne.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+//
+//
+//                    //if (intentOne.resolveActivity(getPackageManager()) != null) {
+//                    // the below startActivityForResult method is a crucial part of the speech validation.
+//                    // Deleting it turns the mic button to just a pause button.
+//
+//                    //} else {
+//                    //Toast.makeText(this, "You Device Does Not Support Speech Input", Toast.LENGTH_SHORT).show();
+//
+//                    startActivityForResult(intentOne, 2);
+//                    answerCheck("Mac Demarco", txvResult);
+////                    Intent testingTwo = new Intent(SecondGuessScreen.this, ThirdGuessScreen.class);
+////                    startActivityForResult(testingTwo, 1);
+//                    break;
+//            }
 //        }
+//
+
+        @Override
+        protected void onActivityResult ( int requestCode, int resultCode, Intent data){
+            AnswerCheck checkAnswer = new AnswerCheck();
+            super.onActivityResult(requestCode, resultCode, data);
+            getSpeechInput(findViewById(R.id.txvResult));
+            voiceAnswerValidation(requestCode, resultCode, data);
+            checkAnswer.answerCheck("test", txvResult);
+            Intent testingTwo = new Intent(SecondGuessScreen.this, ThirdGuessScreen.class);
+            startActivityForResult(testingTwo, 2);
 
 
-    }
+        }
+
+
+
 }
+
