@@ -9,17 +9,8 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    int startMusicFrom = 0;
-    int endMusicAt = 30000;
     ImageView btnSpeak;
 
-
-
-//    Runnable stopMusicPlayer = new Runnable() {
-//        @Override
-//        public void run() {
-//            mediaPlayer.pause();
-//        }};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,23 +29,3 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-//    public void stopMusicPlayer() {
-//        mediaPlayer.stop();
-//    }
-//}
-
-//        public void stopPlaying(){
-//            FirstGuessScreen firstGuessScreen = new FirstGuessScreen();
-//            if (firstGuessScreen.btnSpeak.isPressed()) {
-//
-//            }
-//        }
-
-
-
-
-//    public void stopMusicPlayer() {
-//        Handler handler = new Handler();
-//        handler.postDelayed(stopMusicPlayer, endMusicAt);
-//    }
-//}

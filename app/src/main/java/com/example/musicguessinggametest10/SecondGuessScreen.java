@@ -5,15 +5,17 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class SecondGuessScreen  extends FirstGuessScreen {
+public class SecondGuessScreen extends FirstGuessScreen {
+
 
 //    private FirstGuessScreen firstGuessScreen;
     private TextView txvResult;
     private TextView displayScore;
   //  private String score;
  //   MediaPlayer mediaPlayer;
-   // ImageView btnSpeak;
+    private ImageView speakButton;
  //   Context context;
   //  Intent data;
  //   View view;
@@ -35,8 +37,10 @@ public class SecondGuessScreen  extends FirstGuessScreen {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guess_screen);
 
+      //  FirstGuessScreen FGS = new FirstGuessScreen();
+
         txvResult = (TextView) findViewById(R.id.txvResult);
-         speakButton = (ImageView) findViewById(R.id.btnSpeak);
+        speakButton = (ImageView) findViewById(R.id.btnSpeak);
         displayScore = (TextView) findViewById(R.id.displayScore);
 
         // Not confirmed to work
@@ -114,12 +118,32 @@ public class SecondGuessScreen  extends FirstGuessScreen {
         @Override
         protected void onActivityResult ( int requestCode, int resultCode, Intent data){
             AnswerCheck checkAnswer = new AnswerCheck();
-            super.onActivityResult(requestCode, resultCode, data);
+          //  FirstGuessScreen FGSTwo = new FirstGuessScreen();
+
             getSpeechInput(findViewById(R.id.txvResult));
+
+            super.onActivityResult(requestCode, resultCode, data);
             voiceAnswerValidation(requestCode, resultCode, data);
-            checkAnswer.answerCheck("test", txvResult);
-            Intent testingTwo = new Intent(SecondGuessScreen.this, ThirdGuessScreen.class);
-            startActivityForResult(testingTwo, 2);
+
+
+            // Worried that inheriting from FirstGuessScreen keeps variable data of
+            // the checkAnswer.answerCheck method below, even though it's an object of answerCheck...
+            // I don't even know if what I just said is possible, but I feel like it is -_-
+            checkAnswer.answerCheck("Mac DeMarco", txvResult);
+
+            if (checkAnswer.isAnswerCheckWorking) {
+                Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, ThirdGuessScreen.class);
+                startActivityForResult(intent, 2);
+            } else {
+                Toast.makeText(this, "Please Try Again!", Toast.LENGTH_SHORT).show();
+            }
+
+//            Intent intent = new Intent(this, ThirdGuessScreen.class);
+//            startActivity(intent);
+
+//            Intent testingTwo = new Intent(SecondGuessScreen.this, ThirdGuessScreen.class);
+//            startActivityForResult(testingTwo, 2);
 
 
         }

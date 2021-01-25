@@ -8,6 +8,7 @@ import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,13 +18,13 @@ import java.util.Locale;
 public class FirstGuessScreen extends AppCompatActivity { //implements  LayoutInflater.Factory2, Window.Callback, KeyEvent.Callback, View.OnCreateContextMenuListener, ComponentCallbacks2, LifecycleOwner, KeyEventDispatcher.Component, ViewModelStoreOwner, SavedStateRegistryOwner, OnBackPressedDispatcherOwner, ActivityCompat.OnRequestPermissionsResultCallback, ActivityCompat.RequestPermissionsRequestCodeValidator, AppCompatCallback, TaskStackBuilder.SupportParentable, ActionBarDrawerToggle.DelegateProvider {
 
     public TextView txvResult;
-
     public MediaPlayer mp;
 
     int startMusicFrom = 0;
     int endMusicAt = 30000;
     int length;
     int playerScore = 0;
+
     String playerGuess;
     ImageView speakButton;
     Context context;
@@ -48,23 +49,24 @@ public class FirstGuessScreen extends AppCompatActivity { //implements  LayoutIn
         mp = MediaPlayer.create(getApplicationContext(), R.raw.song);
         mp.start();
 
-    }
 
+
+    }
 
     public void getSpeechInput(View view) {
 
-//
+
+
         if (speakButton.isPressed()) {
             mp.pause();
-            length = mp.getCurrentPosition();
-//        } else {
-//            mp.start();
-//            mp.seekTo(length);
+            //length = mp.getCurrentPosition();
+        } else {
+            mp.pause();
+        }
+//
 //
 //        }
-        }
-
-
+        // }
 
         switch (view.getId()) {
             case R.id.btnSpeak:
@@ -75,13 +77,15 @@ public class FirstGuessScreen extends AppCompatActivity { //implements  LayoutIn
 
 
                 //if (intentOne.resolveActivity(getPackageManager()) != null) {
-                // the below startActivityForResult method is a crucial part of the speech validation.
-                // Deleting it turns the mic button to just a pause button.
+
 
                 //} else {
                 //Toast.makeText(this, "You Device Does Not Support Speech Input", Toast.LENGTH_SHORT).show();
 
-                startActivityForResult(intentOne, 1);
+                // the below startActivityForResult method is a crucial part of the speech validation.
+                // Deleting it turns the mic button to just a pause button.
+
+                startActivityForResult(intentOne,1);
 
                 break;
         }
@@ -89,12 +93,43 @@ public class FirstGuessScreen extends AppCompatActivity { //implements  LayoutIn
     }
 
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         AnswerCheck checkAnswer = new AnswerCheck();
+
         super.onActivityResult(requestCode, resultCode, data);
         voiceAnswerValidation(requestCode, resultCode, data);
-        checkAnswer.answerCheck("Demi Lovato", txvResult);
+         checkAnswer.answerCheck("Demi Lovato", txvResult);
+
+         if (checkAnswer.isAnswerCheckWorking) {
+             Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+             Intent intent = new Intent(this, SecondGuessScreen.class);
+             startActivity(intent);
+         } else {
+             Toast.makeText(this, "Please Try Again!", Toast.LENGTH_SHORT).show();
+         }
+
+
+//            Toast.makeText(this, "Correct", Toast.LENGTH_SHORT).show();
+////
+////        Intent intent = new Intent(this, SecondGuessScreen.class);
+////        startActivity(intent);
+//
+//        } else {
+//            Toast.makeText(this, "Try Again Fucker!", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+//        Intent intent = new Intent(this, SecondGuessScreen.class);
+//        startActivity(intent);
+
+//        Intent testingTwo = new Intent(FirstGuessScreen.this, SecondGuessScreen.class);
+//        startActivityForResult(testingTwo, 1);
+
 
 
 //        if (requestCode == 10){
@@ -106,7 +141,7 @@ public class FirstGuessScreen extends AppCompatActivity { //implements  LayoutIn
 //            }
 //        }
 
-    }
+
 
 
     public void voiceAnswerValidation(int requestCode, int resultCode, Intent data) {
@@ -147,6 +182,10 @@ public class FirstGuessScreen extends AppCompatActivity { //implements  LayoutIn
             mp = null;
 
         }
+    }
+
+    public void showToastMethod(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 }
 
